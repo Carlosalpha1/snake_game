@@ -6,6 +6,7 @@
 #############################
 
 import pygame
+import pygame_menu
 import random
 import time
 from pygame.locals import *
@@ -30,6 +31,8 @@ rows = int(HEIGHT/20)
 cols = int(WIDTH/20)
 
 red_square = []
+
+score = 0
 
 class Snake():
     def __init__(self):
@@ -122,23 +125,21 @@ def draw_background(color):
     screen.fill(color)
 
 def game_init():
-    global screen, snake, red_square
+    """ initializing parameters """
+    global snake, red_square, score
 
-    pygame.init()
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    score = 0
     snake = Snake()
     generateSquare(square=red_square)
 
-
-if __name__ == "__main__":
-
-    game_init()
+def game_loop():
+    """ the principal loop of game """
+    global score
 
     pygame.mixer.music.load("sounds/music.wav")
     pygame.mixer.music.play(-1)
     game_over_sound = pygame.mixer.Sound("sounds/game_over.wav")
 
-    score = 0
     end = False
     clock = pygame.time.Clock()
     while not end:
@@ -186,3 +187,19 @@ if __name__ == "__main__":
 
         clock.tick(10)
     print("PUNCTUATION:", score)
+
+
+# MAIN FUNCTION
+if __name__ == "__main__":
+
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    def start_game():
+        game_init()
+        game_loop()
+
+    menu = pygame_menu.Menu(HEIGHT, WIDTH, "SNAKE", theme=pygame_menu.themes.THEME_BLUE)
+    menu.add_button('Play', start_game)
+    menu.add_button('Quit', pygame_menu.events.EXIT)
+
+    menu.mainloop(screen)
