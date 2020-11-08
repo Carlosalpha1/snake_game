@@ -174,7 +174,7 @@ def read_file(path):
 
 def write_file(path, data):
     global score
-    fd = open(path, "r+")
+    fd = open(path, "w+")
     try:
         fd.write(str(score))
     except:
@@ -237,6 +237,7 @@ def game_loop():
 
         clock.tick(10)
     print("PUNCTUATION:", score)
+    red_square.pop()
     write_file("saved_datas/score.txt", score)
 
 
