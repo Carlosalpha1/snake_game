@@ -18,7 +18,6 @@ RIGHT=0
 LEFT=1
 UP=2
 DOWN=3
-STOP=4
 
 LIGHT_GREEN = (168, 222, 53)
 WHITE = (255, 255, 255)
@@ -38,8 +37,6 @@ class Snake():
     def move(self, objetive):
         global screen
 
-        if self.dir == STOP:
-            return True
         head = self.body[0]
         if self.dir == RIGHT:
             if self.body[0][0] < (WIDTH - SQUARE_SIDE):
@@ -144,8 +141,6 @@ if __name__ == "__main__":
                     snake.set_direction(DOWN)
                 elif event.key == K_w and snake.get_direction() != DOWN:
                     snake.set_direction(UP)
-                if event.key == K_j:
-                    snake.set_direction(STOP)
                 break # it avoids bug control (3 keys in time)
 
             elif event.type == QUIT:
