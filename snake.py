@@ -1,6 +1,8 @@
 #############################
 # SNAKE GAME                #
 # Carlos Caminero           #
+# Contributors:             #
+#   Javier Martinez         #
 #############################
 
 import pygame
