@@ -134,6 +134,7 @@ if __name__ == "__main__":
 
     pygame.mixer.music.load("sounds/music.wav")
     pygame.mixer.music.play(-1)
+    game_over_sound = pygame.mixer.Sound("sounds/game_over.wav")
 
     score = 0
     end = False
@@ -165,6 +166,9 @@ if __name__ == "__main__":
 
         # Test if GAME OVER
         if game_state == False:
+            pygame.mixer.music.stop()
+            pygame.mixer.Sound.play(game_over_sound)
+            time.sleep(1)
             end = True
 
         # if there isn't Objetive square, it generates another
