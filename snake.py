@@ -33,6 +33,7 @@ class Snake():
     def __init__(self):
         self.dir = RIGHT
         self.body = [[0, 0], [-20, 0], [-40, 0], [-60, 0]]
+        self.eat_sound = pygame.mixer.Sound("sounds/eat_apple.wav")
 
     def move(self, objetive):
         global screen, score
@@ -62,6 +63,7 @@ class Snake():
         if self.body[0][0] == objetive[0][0] and self.body[0][1] == objetive[0][1]:
             self.eat(objetive)
             score += 1
+            pygame.mixer.Sound.play(self.eat_sound)
             print(score)
         else:
             self.body.pop()
@@ -129,6 +131,9 @@ def game_init():
 if __name__ == "__main__":
 
     game_init()
+
+    pygame.mixer.music.load("sounds/music.wav")
+    pygame.mixer.music.play(-1)
 
     score = 0
     end = False
