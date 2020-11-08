@@ -15,7 +15,9 @@ from pygame.locals import *
 random.seed(time.time())
 
 WIDTH = 400
-HEIGHT = 300
+TOTAL_HEIGHT = 400
+GRID_HEIGHT = 300
+LABEL_SCORE_HEIGTH = TOTAL_HEIGHT-GRID_HEIGHT
 SQUARE_SIDE = 20
 
 RIGHT=0
@@ -23,17 +25,21 @@ LEFT=1
 UP=2
 DOWN=3
 
+BLACK = (0,0,0)
 LIGHT_GREEN = (168, 222, 53)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 
-rows = int(HEIGHT/20)
+rows = int(GRID_HEIGHT/20)
 cols = int(WIDTH/20)
 
 red_square = []
 
 score = 0
+
+checkpoint_sound = 0
+game_over_sound = 0
 
 class Snake():
     def __init__(self):
@@ -61,7 +67,7 @@ class Snake():
             else:
                 return False
         if self.dir == DOWN:
-            if self.body[0][1] < (HEIGHT - SQUARE_SIDE):
+            if self.body[0][1] < (GRID_HEIGHT - SQUARE_SIDE):
                 self.body.insert(0, [head[0], head[1] + SQUARE_SIDE])
             else:
                 return False
@@ -69,6 +75,8 @@ class Snake():
         if self.body[0][0] == objetive[0][0] and self.body[0][1] == objetive[0][1]:
             self.eat(objetive)
             score += 1
+            if(score%10 == 0 and score != 0):
+                pygame.mixer.Sound.play(checkpoint_sound)
             pygame.mixer.Sound.play(self.eat_sound)
             print(score)
         else:
@@ -110,6 +118,25 @@ def drawGrid():
             yf = SQUARE_SIDE*(i+1)
             pygame.draw.rect(screen, BLUE ,[xi,yi,xf,yf],1)
 
+def show_score(text):
+    font = pygame.font.Font('freesansbold.ttf', 32)
+    render_text = font.render(text, True, BLACK)
+    text_rect = render_text.get_rect(center=(WIDTH/2, TOTAL_HEIGHT-(LABEL_SCORE_HEIGTH/2)))
+    screen.blit(render_text, text_rect)
+
+def show_checkpoint(text):
+    font = pygame.font.Font('freesansbold.ttf', 75)
+    render_text = font.render(text, True, RED)
+    text_rect = render_text.get_rect(center=(WIDTH/2, TOTAL_HEIGHT-(LABEL_SCORE_HEIGTH/2)))
+    screen.blit(render_text, text_rect)
+
+def draw_label_score():
+    pygame.draw.rect(screen, WHITE, [0, GRID_HEIGHT, WIDTH, TOTAL_HEIGHT])
+    if(score%10 == 0 and score != 0):
+        show_checkpoint(str(score))
+    else:
+        show_score("Score: "+str(score))
+
 def generateSquare(square):
     x = random.randint(0, cols - 1)
     y = random.randint(0, rows - 1)
@@ -127,8 +154,10 @@ def draw_background(color):
 
 def game_init():
     """ initializing parameters """
-    global snake, red_square, score
+    global snake, red_square, score, checkpoint_sound, game_over_sound
 
+    checkpoint_sound = pygame.mixer.Sound("sounds/checkpoint.wav")
+    game_over_sound = pygame.mixer.Sound("sounds/game_over.wav")
     score = 0
     snake = Snake()
     generateSquare(square=red_square)
@@ -159,7 +188,6 @@ def game_loop():
 
     pygame.mixer.music.load("sounds/music.wav")
     pygame.mixer.music.play(-1)
-    game_over_sound = pygame.mixer.Sound("sounds/game_over.wav")
 
     end = False
     clock = pygame.time.Clock()
@@ -204,6 +232,7 @@ def game_loop():
         drawGrid()
         draw_snake(snake)
         draw_square(location=red_square, color=RED)
+        draw_label_score()
         pygame.display.flip()
 
         clock.tick(10)
@@ -215,14 +244,14 @@ def game_loop():
 if __name__ == "__main__":
 
     pygame.init()
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen = pygame.display.set_mode((WIDTH, TOTAL_HEIGHT))
     def start_game():
         game_init()
         game_loop()
 
     last_score = read_file("saved_datas/score.txt")
     print("Last score:", last_score)
-    menu = pygame_menu.Menu(HEIGHT, WIDTH, "SNAKE", theme=pygame_menu.themes.THEME_BLUE)
+    menu = pygame_menu.Menu(TOTAL_HEIGHT, WIDTH, "SNAKE", theme=pygame_menu.themes.THEME_BLUE)
     menu.add_label("Score: " + str(last_score))
     menu.add_button('Play', start_game)
     menu.add_button('Quit', pygame_menu.events.EXIT)
