@@ -60,12 +60,15 @@ class Snake():
                 return False
 
         if self.body[0][0] == objetive[0][0] and self.body[0][1] == objetive[0][1]:
-            objetive.pop()
+            self.eat(objetive)
             score += 1
             print(score)
         else:
             self.body.pop()
         return True
+
+    def eat(self, objetive):
+        objetive.pop()
 
     def set_direction(self, dir):
         self.dir = dir
