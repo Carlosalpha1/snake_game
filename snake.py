@@ -35,7 +35,7 @@ class Snake():
         self.body = [[0, 0], [-20, 0], [-40, 0], [-60, 0]]
 
     def move(self, objetive):
-        global screen
+        global screen, score
 
         head = self.body[0]
         if self.dir == RIGHT:
@@ -61,6 +61,8 @@ class Snake():
 
         if self.body[0][0] == objetive[0][0] and self.body[0][1] == objetive[0][1]:
             objetive.pop()
+            score += 1
+            print(score)
         else:
             self.body.pop()
         return True
@@ -125,6 +127,7 @@ if __name__ == "__main__":
 
     game_init()
 
+    score = 0
     end = False
     clock = pygame.time.Clock()
     while not end:
@@ -168,3 +171,4 @@ if __name__ == "__main__":
         pygame.display.flip()
 
         clock.tick(10)
+    print("PUNCTUATION:", score)
