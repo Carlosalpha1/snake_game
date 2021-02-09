@@ -162,26 +162,6 @@ def game_init():
     snake = Snake()
     generateSquare(square=red_square)
 
-def read_file(path):
-    fd = open(path, "r+")
-    try:
-        punct = fd.readline()
-        punct = punct.replace("\n", "")
-        fd.close()
-        return punct
-    except:
-        sys.exit("Read file failure")
-
-def write_file(path, data):
-    global score
-    fd = open(path, "w+")
-    try:
-        fd.write(str(score))
-    except:
-        sys.exit("Write file failure")
-
-    fd.close()
-
 def game_loop():
     """ the principal loop of game """
     global score
@@ -238,7 +218,6 @@ def game_loop():
         clock.tick(10)
     print("PUNCTUATION:", score)
     red_square.pop()
-    write_file("saved_datas/score.txt", score)
 
 
 # MAIN FUNCTION
@@ -250,10 +229,7 @@ if __name__ == "__main__":
         game_init()
         game_loop()
 
-    last_score = read_file("saved_datas/score.txt")
-    print("Last score:", last_score)
     menu = pygame_menu.Menu(TOTAL_HEIGHT, WIDTH, "SNAKE", theme=pygame_menu.themes.THEME_BLUE)
-    menu.add_label("Score: " + str(last_score))
     menu.add_button('Play', start_game)
     menu.add_button('Quit', pygame_menu.events.EXIT)
 
