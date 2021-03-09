@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 #############################
 # SNAKE GAME                #
 # Carlos Caminero           #
@@ -13,6 +15,10 @@ import sys
 from pygame.locals import *
 
 random.seed(time.time())
+
+#############
+# AUTO VARIABLES
+#############
 
 WIDTH = 400
 TOTAL_HEIGHT = 400
@@ -45,7 +51,7 @@ class Snake():
     def __init__(self):
         self.dir = RIGHT
         self.body = [[0, 0], [-20, 0], [-40, 0], [-60, 0]]
-        self.eat_sound = pygame.mixer.Sound("sounds/eat_apple.wav")
+        self.eat_sound = pygame.mixer.Sound(eat_apple_sound_path)
 
     def move(self, objetive):
         global screen, score
@@ -78,7 +84,6 @@ class Snake():
             if(score%10 == 0 and score != 0):
                 pygame.mixer.Sound.play(checkpoint_sound)
             pygame.mixer.Sound.play(self.eat_sound)
-            print(score)
         else:
             self.body.pop()
         return True
@@ -156,8 +161,8 @@ def game_init():
     """ initializing parameters """
     global snake, red_square, score, checkpoint_sound, game_over_sound
 
-    checkpoint_sound = pygame.mixer.Sound("sounds/checkpoint.wav")
-    game_over_sound = pygame.mixer.Sound("sounds/game_over.wav")
+    checkpoint_sound = pygame.mixer.Sound(checkpoint_sound_path)
+    game_over_sound = pygame.mixer.Sound(game_over_sound_path)
     score = 0
     snake = Snake()
     generateSquare(square=red_square)
@@ -166,7 +171,7 @@ def game_loop():
     """ the principal loop of game """
     global score
 
-    pygame.mixer.music.load("sounds/music.wav")
+    pygame.mixer.music.load(music_sound_path)
     pygame.mixer.music.play(-1)
 
     end = False
@@ -216,7 +221,6 @@ def game_loop():
         pygame.display.flip()
 
         clock.tick(10)
-    print("PUNCTUATION:", score)
     red_square.pop()
 
 
