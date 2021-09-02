@@ -229,6 +229,7 @@ if __name__ == "__main__":
 
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, TOTAL_HEIGHT))
+    pygame.display.set_caption("Snake Game")
     def start_game():
         game_init()
         game_loop()
