@@ -3,7 +3,7 @@
 sudo apt-get update
 sudo apt-get install python3-pip
 pip3 install pygame
-pip3 install pygame_menu
+pip3 install pygame_menu==3.5.8
 
 LINE=21i
 for music_file in sounds/*
