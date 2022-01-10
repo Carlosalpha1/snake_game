@@ -16,7 +16,7 @@ chmod +x uninstall.sh
 ## Demo
 <div align="center">
   <a href="https://github.com/Carlosalpha1/aprendizaje-proyecto">
-    <img src="docs/demo.png" alt="Portada">
+    <img src="docs/demo.gif" alt="Portada">
   </a>
 </div>
 
