@@ -1,7 +1,7 @@
 #!/bin/sh
 
 sudo apt-get update
-sudo apt-get install python3-pip
+sudo apt-get install python3-pip -y
 pip3 install pygame
 pip3 install pygame_menu==3.5.8
 
@@ -27,7 +27,7 @@ Type=Application
 Terminal=false
 Name=Snake Game
 Exec=$(pwd)/snake.py
-Icon=$(pwd)/images/snake_icon.png
+Icon=$(pwd)/docs/snake_icon.png
 EOF
 
 mv snake.desktop $HOME/.local/share/applications/
